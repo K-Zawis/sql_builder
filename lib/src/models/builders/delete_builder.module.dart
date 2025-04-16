@@ -1,6 +1,6 @@
 import '../../interfaces/interfaces.dart';
 import '../../utils/utils.dart' show StringExtensions;
-import '../mixins/mixins.dart' show DeleteWhereable, Limitable, Orderable;
+import '../mixins/mixins.dart' show SimpleWhereable, Limitable, Orderable;
 
 /* 
 
@@ -11,7 +11,7 @@ import '../mixins/mixins.dart' show DeleteWhereable, Limitable, Orderable;
 
  */
 
-class DeleteQueryBuilder extends QueryBuilder with DeleteWhereable, Orderable, Limitable {
+class DeleteQueryBuilder extends QueryBuilder with SimpleWhereable, Orderable, Limitable {
   final String table;
 
   DeleteQueryBuilder(this.table);

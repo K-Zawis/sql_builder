@@ -15,11 +15,11 @@ class WhereQueryBuilder extends QueryBuilder with Groupable, OrderableWithOffset
   }
 }
 
-class DeleteWhereQueryBuilder extends QueryBuilder with Orderable, Limitable {
+class SimpleWhereQueryBuilder extends QueryBuilder with Orderable, Limitable {
   final QueryBuilder previous;
   final SqlFilter filter;
 
-  DeleteWhereQueryBuilder(this.previous, this.filter);
+  SimpleWhereQueryBuilder(this.previous, this.filter);
 
   @override
   String build([bool finalBuild = true]) {

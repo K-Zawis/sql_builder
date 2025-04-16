@@ -9,13 +9,13 @@ class InsertQueryBuilder extends QueryBuilder {
 
   InsertQueryBuilder(this.table, this.rows) {
     if (rows.isEmpty) {
-      throw ArgumentError.value(rows, "rows", "Must not be empty.");
+      throw ArgumentError.value(rows, "rows", "Must not be empty");
     }
     _columns = rows.first.keys.toList();
     _values = rows.map((row) => row.values.toList()).toList();
 
     if (_columns.isEmpty) {
-      throw ArgumentError.value(rows, "rows", "Each row must have at least one column.");
+      throw ArgumentError.value(rows, "rows", "Each row must have at least one column");
     }
 
     final expectedKeys = _columns.toSet();
@@ -24,7 +24,7 @@ class InsertQueryBuilder extends QueryBuilder {
       return keySet.difference(expectedKeys).isNotEmpty || expectedKeys.difference(keySet).isNotEmpty;
     });
     if (hasMismatchedKeys) {
-      throw ArgumentError.value(rows, "rows", "All rows must have the same set of columns.");
+      throw ArgumentError.value(rows, "rows", "All rows must have the same set of columns");
     }
   }
 

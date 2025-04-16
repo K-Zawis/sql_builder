@@ -23,6 +23,6 @@ class OffsetableOrderByQueryBuilder extends QueryBuilder with LimitableWithOffse
 
   @override
   String build([bool finalBuild = true]) {
-    return "${previous.build(false)} ORDER BY ${order}".withSemicolon(finalBuild);
+    return "${previous.build(false)} ORDER BY $order".withSemicolon(finalBuild);
   }
 }

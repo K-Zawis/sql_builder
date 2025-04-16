@@ -1,5 +1,6 @@
 import 'builders/builders.dart';
 import 'builders/insert_builder.module.dart';
+import 'builders/update_builder.module.dart';
 
 class Sql {
   static SelectQueryBuilder select(
@@ -16,7 +17,9 @@ class Sql {
     return InsertQueryBuilder(table, rowMaps);
   }
 
-  static void update(String table, Map<String, dynamic> rowMap) {}
+  static UpdateQueryBuilder update(String table, Map<String, dynamic> rowMap) {
+    return UpdateQueryBuilder(table, rowMap);
+  }
 
   static DeleteQueryBuilder delete(String table) {
     return DeleteQueryBuilder(table);
