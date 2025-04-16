@@ -3,9 +3,9 @@ import '../builders/builders.dart' show OffsetableOrderByQueryBuilder, OrderByQu
 import '../models.dart' show OrderBy;
 
 mixin Orderable on QueryBuilder {
-  OrderByQueryBuilder orderBy(List<OrderBy> orders) => OrderByQueryBuilder(this, orders);
+  OrderByQueryBuilder orderBy(OrderBy order) => OrderByQueryBuilder(this, order);
 }
 
 mixin OrderableWithOffset on QueryBuilder {
-  OffsetableOrderByQueryBuilder orderBy(List<OrderBy> orders) =>  OffsetableOrderByQueryBuilder(this, orders);
+  OffsetableOrderByQueryBuilder orderBy(OrderBy order) =>  OffsetableOrderByQueryBuilder(this, order);
 }

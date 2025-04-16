@@ -23,10 +23,16 @@ LIMIT ...
  */
 
 void main() {
-  // final sql = Sql.select("test").where(SqlFilter("test1", isEqualTo: 0)).orderBy([
-  //   OrderBy(["test2", "test3"]),
-  //   OrderBy(["test4"], Order.desc)
-  // ]);
-  final sql = Sql.insert("table", [{"test1": "value1"}, {"test1": "value2"}]);
-  print(sql.build());
+  final order = OrderBy.all([
+    OrderBy("column1"),
+    OrderBy.DESC(["column2", "column3"]),
+    OrderBy("column4")
+  ]);
+
+  final select = Sql.select("table")
+      .where(SqlFilter("column1", isBetween: [1, 18]))
+      .orderBy(order)
+      .limit(20)
+      .offset(10);
+  print(select.build());
 }

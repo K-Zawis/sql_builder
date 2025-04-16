@@ -1,20 +1,28 @@
 import '../../interfaces/interfaces.dart';
 import '../../utils/utils.dart' show StringExtensions;
-import '../mixins/mixins.dart' show Limitable, Offsetable;
+import '../mixins/mixins.dart' show Limitable, LimitableWithOffset, Offsetable;
 import '../models.dart' show OrderBy;
 
 class OrderByQueryBuilder extends QueryBuilder with Limitable {
   final QueryBuilder previous;
-  final List<OrderBy> orders;
+  final OrderBy order;
 
-  OrderByQueryBuilder(this.previous, this.orders);
+  OrderByQueryBuilder(this.previous, this.order);
 
   @override
   String build([bool finalBuild = true]) {
-    return "${previous.build(false)} ORDER BY ${orders.join(", ")}".withSemicolon(finalBuild);
+    return "${previous.build(false)} ORDER BY $order".withSemicolon(finalBuild);
   }
 }
 
-class OffsetableOrderByQueryBuilder extends OrderByQueryBuilder with Offsetable {
-  OffsetableOrderByQueryBuilder(super.previous, super.orders);
+class OffsetableOrderByQueryBuilder extends QueryBuilder with LimitableWithOffset, Offsetable {
+  final QueryBuilder previous;
+  final OrderBy order;
+
+  OffsetableOrderByQueryBuilder(this.previous, this.order);
+
+  @override
+  String build([bool finalBuild = true]) {
+    return "${previous.build(false)} ORDER BY ${order}".withSemicolon(finalBuild);
+  }
 }
