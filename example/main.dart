@@ -1,48 +1,84 @@
 import '../lib/src/models/models.dart';
 
-/* 
-SELECT ...
-FROM ...
-WHERE ...
-GROUP BY ...
-HAVING ...
-ORDER BY ...
-LIMIT ...
-OFFSET ...
+/*
+  Example Database Schema for Demonstration
 
-UPDATE table
-SET column1 = value1
-WHERE ...
-ORDER BY ...
-LIMIT ...
+  Table: users
+  ┌────────────┬────────────┬──────────────┐
+  │ id (INT)   │ name (TEXT)│ age (INT)    │
+  ├────────────┼────────────┼──────────────┤
+  │ 1          │ "Alice"    │ 30           │
+  │ 2          │ "Bob"      │ 25           │
+  │ 3          │ "Charlie"  │ 35           │
+  └────────────┴────────────┴──────────────┘
 
-DELETE FROM table
-WHERE ...
-ORDER BY ...
-LIMIT ...
- */
+  Table: posts
+  ┌────────────┬───────────────┬──────────────────────┐
+  │ id (INT)   │ user_id (INT) │ content (TEXT)       │
+  ├────────────┼───────────────┼──────────────────────┤
+  │ 1          │ 1             │ "Hello world!"       │
+  │ 2          │ 1             │ "Dart is fun"        │
+  │ 3          │ 2             │ "Flutter is awesome" │
+  └────────────┴───────────────┴──────────────────────┘
+
+  Relationships:
+  - users.id <--> posts.user_id
+  - One user can have many posts
+*/
 
 void main() {
-  final order = OrderBy.all([
-    OrderBy("column1", Order.desc),
-    OrderBy.ASC(["column2", "column3"]),
-    OrderBy("column4", Order.desc)
-  ]);
+  // inserting one row
+  final Map<String, dynamic> row = {"name": "Gabriel", "age": 22};
+  final InsertQueryBuilder insert = Sql.insert("users", [row]);
+  print("\n --- Inserting 1 row ---");
+  print(insert.build());
 
-  final select =
-      Sql.select("table").where(SqlFilter("column1", isBetween: [1, 18])).orderBy(order).limit(20).offset(10);
-  print(select.build());
+  // inserting multiple rows
+  final List<Map<String, dynamic>> rows = [
+    {"user_id": 4, "content": "This row has been inserted"},
+    {"user_id": 4, "content": "This one too"},
+  ];
+  final InsertQueryBuilder insertMultiple = Sql.insert("posts", rows);
+  print("\n --- Inserting multiple rows ---");
+  print(insertMultiple.build());
 
-  print("");
+  // simple select
+  final SelectQueryBuilder simpleSelect = Sql.select("users", ["name", "age"]);
+  print("\n --- Selecting named columns ---");
+  print(simpleSelect.build());
 
-  final update = Sql.update("table", {"test1": "value1", "test2": 2})
-      .where(
-        SqlFilter.and([
-          SqlFilter("test1", where: Condition.isNull),
-          SqlFilter("test2", isEqualTo: 1),
-        ]),
-      )
-      .orderBy(OrderBy("test1"))
-      .limit(10);
+  // select specific rows
+  final filteredSelect = Sql.select("posts")
+    .where(SqlFilter("user_id", isEqualTo: 4));
+  print("\n --- Selecting all columns for user_id 4 ---");
+  print(filteredSelect.build());
+
+  // select with WHERE, ORDER BY, LIMIT, OFFSET
+  final filteredOrderedSelect = Sql.select("posts")
+    .where(SqlFilter("user_id", isEqualTo: 1))
+    .orderBy(OrderBy.DESC(["id"]))
+    .limit(2)
+    .offset(0);
+  print("\n --- Selecting latest 2 posts by user_id 1 ---");
+  print(filteredOrderedSelect.build());
+
+  // update example with WHERE clause
+  final updateRow = {"age": 31};
+  final update = Sql.update("users", updateRow)
+    .where(SqlFilter("name", isEqualTo: "Alice"));
+  print("\n --- Updating age of Alice to 31 ---");
   print(update.build());
+
+  // delete with WHERE clause
+  final delete = Sql.delete("posts")
+    .where(SqlFilter("content", isEqualTo: "This row has been inserted"));
+  print("\n --- Deleting post with specific content ---");
+  print(delete.build());
+
+  // delete with ORDER BY and LIMIT (PostgreSQL-specific)
+  final limitedDelete = Sql.delete("posts")
+    .orderBy(OrderBy.DESC(["id"]))
+    .limit(1);
+  print("\n --- Deleting latest post ---");
+  print(limitedDelete.build());
 }

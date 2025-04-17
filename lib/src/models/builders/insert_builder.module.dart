@@ -1,6 +1,13 @@
 import '../../interfaces/interfaces.dart';
 import '../../utils/utils.dart';
 
+/* 
+
+  INSERT INTO ... (..)
+  VALUES (...)
+
+ */
+
 class InsertQueryBuilder extends QueryBuilder {
   final String table;
   final List<Map<String, dynamic>> rows;
@@ -15,7 +22,7 @@ class InsertQueryBuilder extends QueryBuilder {
     _values = rows.map((row) => row.values.toList()).toList();
 
     if (_columns.isEmpty) {
-      throw ArgumentError.value(rows, "rows", "Each row must have at least one column");
+      throw ArgumentError.value(_columns, "rows", "Each row must have at least one column");
     }
 
     final expectedKeys = _columns.toSet();
