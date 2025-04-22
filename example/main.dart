@@ -48,37 +48,35 @@ void main() {
   print(simpleSelect.build());
 
   // select specific rows
-  final filteredSelect = Sql.select("posts")
-    .where(SqlFilter("user_id", isEqualTo: 4));
+  final filteredSelect = Sql.select("posts").where(SqlFilter("user_id", isEqualTo: 4));
   print("\n --- Selecting all columns for user_id 4 ---");
   print(filteredSelect.build());
 
   // select with WHERE, ORDER BY, LIMIT, OFFSET
-  final filteredOrderedSelect = Sql.select("posts")
-    .where(SqlFilter("user_id", isEqualTo: 1))
-    .orderBy(OrderBy.DESC(["id"]))
-    .limit(2)
-    .offset(0);
+  final filteredOrderedSelect =
+      Sql.select("posts").where(SqlFilter("user_id", isEqualTo: 1)).orderBy(OrderBy.DESC(["id"])).limit(2).offset(0);
   print("\n --- Selecting latest 2 posts by user_id 1 ---");
   print(filteredOrderedSelect.build());
 
   // update example with WHERE clause
   final updateRow = {"age": 31};
-  final update = Sql.update("users", updateRow)
-    .where(SqlFilter("name", isEqualTo: "Alice"));
+  final update = Sql.update("users", updateRow).where(SqlFilter("name", isEqualTo: "Alice"));
   print("\n --- Updating age of Alice to 31 ---");
   print(update.build());
 
   // delete with WHERE clause
-  final delete = Sql.delete("posts")
-    .where(SqlFilter("content", isEqualTo: "This row has been inserted"));
+  final delete = Sql.delete("posts").where(SqlFilter("content", isEqualTo: "This row has been inserted"));
   print("\n --- Deleting post with specific content ---");
   print(delete.build());
 
   // delete with ORDER BY and LIMIT (PostgreSQL-specific)
-  final limitedDelete = Sql.delete("posts")
-    .orderBy(OrderBy.DESC(["id"]))
-    .limit(1);
+  final limitedDelete = Sql.delete("posts").orderBy(OrderBy.DESC(["id"])).limit(1);
   print("\n --- Deleting latest post ---");
   print(limitedDelete.build());
+
+  final upsert = Sql.insert("post", [
+    {"name": "Alice", "age": 31}
+  ]).onConflict(["id"]).where(SqlFilter("name", isEqualTo: "excluded.name"));
+  print("\n --- Upserting Alice User ---");
+  print(upsert.build());
 }
