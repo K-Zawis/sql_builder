@@ -1,3 +1,5 @@
+import 'package:sql_builder/src/models/builders/upsert_builder.module.dart';
+
 import 'builders/builders.dart';
 import 'builders/insert_builder.module.dart';
 import 'builders/update_builder.module.dart';
@@ -23,5 +25,10 @@ class Sql {
 
   static DeleteQueryBuilder delete(String table) {
     return DeleteQueryBuilder(table);
+  }
+
+  /// WARNING: this upsert implementation uses `INSERT OR REPLACE` not `ON CONFLICT`
+  static UpsertQueryBuilder upsert(String table, Map<String, dynamic> row) {
+    return UpsertQueryBuilder(table, row);
   }
 }

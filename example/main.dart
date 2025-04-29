@@ -74,9 +74,7 @@ void main() {
   print("\n --- Deleting latest post ---");
   print(limitedDelete.build());
 
-  final upsert = Sql.insert("post", [
-    {"name": "Alice", "age": 31}
-  ]).onConflict(["id"]).where(SqlFilter("name", isEqualTo: "excluded.name"));
+  final upsert = Sql.upsert("post", {"id": 1, "name": "Alice", "age": 31});
   print("\n --- Upserting Alice User ---");
   print(upsert.build());
 }

@@ -1,7 +1,7 @@
 import '../../interfaces/interfaces.dart';
 import '../../utils/utils.dart';
 
-import 'upsert_builder.module.dart';
+// import 'upsert_builder.module.dart';
 
 /* 
 
@@ -36,13 +36,6 @@ class InsertQueryBuilder extends QueryBuilder {
       throw ArgumentError.value(rows, "rows", "All rows must have the same set of columns");
     }
   }
-
-  UpsertQueryBuilder onConflict(List<String> conflictColumns) => UpsertQueryBuilder(
-        this,
-        table,
-        rows.first,
-        conflictColumns: conflictColumns,
-      );
 
   @override
   String build([bool finalBuild = true]) {

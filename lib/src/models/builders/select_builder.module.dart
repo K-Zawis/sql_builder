@@ -18,7 +18,7 @@ class SelectQueryBuilder extends QueryBuilder with Whereable, OrderableWithOffse
   final String table;
   final List<String> columns;
 
-  SelectQueryBuilder(this.table, this.columns);
+  SelectQueryBuilder(this.table, [this.columns = const ["*"]]);
 
   @override
   String build([bool finalBuild = true]) {
