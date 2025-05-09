@@ -12,11 +12,13 @@ import '../../utils/utils.dart';
 
 class InsertQueryBuilder extends QueryBuilder {
   final String table;
+  final bool replace;
+
   final List<Map<String, dynamic>> rows;
   late final List<String> _columns;
   late final List<List<dynamic>> _values;
 
-  InsertQueryBuilder(this.table, this.rows) {
+  InsertQueryBuilder(this.table, this.rows, {this.replace = false}) {
     if (rows.isEmpty) {
       throw ArgumentError.value(rows, "rows", "Must not be empty");
     }
@@ -39,6 +41,6 @@ class InsertQueryBuilder extends QueryBuilder {
 
   @override
   String build([bool finalBuild = true]) {
-    return "INSERT INTO $table (${_columns.join(", ")}) VALUES ${formatValue(_values)}".withSemicolon(finalBuild);
+    return "INSERT${replace ? " OR REPLACE" : ""} INTO $table (${_columns.join(", ")}) VALUES ${formatValue(_values)}".withSemicolon(finalBuild);
   }
 }
