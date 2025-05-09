@@ -1,8 +1,6 @@
 import 'package:sql_builder/src/models/builders/upsert_builder.module.dart';
 
 import 'builders/builders.dart';
-import 'builders/insert_builder.module.dart';
-import 'builders/update_builder.module.dart';
 
 class Sql {
   static SelectQueryBuilder select(
@@ -14,9 +12,10 @@ class Sql {
 
   static InsertQueryBuilder insert(
     String table,
-    List<Map<String, dynamic>> rowMaps,
-  ) {
-    return InsertQueryBuilder(table, rowMaps);
+    List<Map<String, dynamic>> rowMaps, {
+    bool replace = false,
+  }) {
+    return InsertQueryBuilder(table, rowMaps, replace: replace);
   }
 
   static UpdateQueryBuilder update(String table, Map<String, dynamic> rowMap) {
