@@ -52,6 +52,17 @@ void main() {
   print("\n --- Selecting all columns for user_id 4 ---");
   print(filteredSelect.build());
 
+  // select and join
+  final joinedSelect = Sql.select("users", [
+    "users.id AS user_id",
+    "users.name AS user_name",
+    "users.age",
+    "posts.id AS post_id",
+    "posts.content AS post_content",
+  ]).join("posts", condition: SqlFilter("posts.user_id", isEqualTo: "users.id"));
+  print("\n --- Selecting joined tables ---");
+  print(joinedSelect.build());
+
   // select with WHERE, ORDER BY, LIMIT, OFFSET
   final filteredOrderedSelect =
       Sql.select("posts").where(SqlFilter("user_id", isEqualTo: 1)).orderBy(OrderBy.DESC(["id"])).limit(2).offset(0);

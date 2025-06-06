@@ -4,7 +4,8 @@ String formatValue(dynamic value, [bool between = false]) {
   if (between) return "${value[0]} AND ${value[1]}";
 
   if (value is String) {
-    final regex = RegExp(r'^excluded\.(?:[a-zA-Z_][a-zA-Z0-9_]*|"[^"]+")$');
+    // final regex = RegExp(r'^excluded\.(?:[a-zA-Z_][a-zA-Z0-9_]*|"[^"]+")$');
+    final regex = RegExp(r'^[a-zA-Z_][a-zA-Z0-9_]*\.(?:[a-zA-Z_][a-zA-Z0-9_]*|"[^"]+")$');
     if (regex.hasMatch(value)) return value;
     return "'$value'";
   } else if (value is List<List>) {

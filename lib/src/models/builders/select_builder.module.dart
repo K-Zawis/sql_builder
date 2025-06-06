@@ -1,6 +1,6 @@
 import '../../interfaces/interfaces.dart';
 import '../../utils/utils.dart' show StringExtensions;
-import '../mixins/mixins.dart' show Havingable, OrderableWithOffset, Whereable;
+import '../mixins/mixins.dart' show Havingable, Joinable, OrderableWithOffset, Whereable;
 
 /* 
 
@@ -14,7 +14,7 @@ import '../mixins/mixins.dart' show Havingable, OrderableWithOffset, Whereable;
 
  */
 
-class SelectQueryBuilder extends QueryBuilder with Whereable, OrderableWithOffset, Havingable {
+class SelectQueryBuilder extends QueryBuilder with Whereable, OrderableWithOffset, Havingable, Joinable {
   final String table;
   final List<String> columns;
 

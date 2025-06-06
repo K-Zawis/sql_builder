@@ -1,5 +1,3 @@
-import 'package:sql_builder/src/models/builders/upsert_builder.module.dart';
-
 import 'builders/builders.dart';
 
 class Sql {
